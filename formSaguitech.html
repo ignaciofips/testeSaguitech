@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+      <link rel="stylesheet" type="text/css" href="css/style.css">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Emissão de NFS-e</title>
+</head>
+<body>
+      <div class="container">
+            <div class="header">
+                  <h1>Teste Saguitech</h1>
+            </div>
+            <div class="content">
+                  <form action="php/emitirNFS-e.php" method="post">
+                        <label for="valorVenda">Valor Venda (R$):</label>
+                        <input type="text" id="valorVenda" name="valorVenda" required>
+
+                        <label for="itens">Itens Vendidos:</label>
+                        <input type="text" id="itens" name="itens" required>
+
+                        <label for="irpf">Porcetagem do Imposto IRPF (%):</label>
+                        <input type="text" id="irpf" name="irpf" required>
+
+                        <label for="pis">Porcetagem do Imposto PIS (%):</label>
+                        <input type="text" id="pis" name="pis" required>
+
+                        <label for="cofins">Porcetagem do Imposto COFINS (%):</label>
+                        <input type="text" id="cofins" name="cofins" required>
+
+                        <label for="inss">Porcetagem do Imposto INSS (%):</label>
+                        <input type="text" id="inss" name="inss" required>
+
+                        <label for="issqn">Porcetagem do Imposto ISSQN (%):</label>
+                        <input type="text" id="issqn" name="issqn" required>
+                        
+                        <button type="button"  onclick="calcularNFS()">Emitir NFS-e</button>
+                  </form>
+            </div>
+      </div>
+      <div id="notaFiscal" class="nota-fiscal" style="display: none;">
+            <h2>Nota Fiscal de Serviço Eletrônica</h2>
+            <p>Valor Venda: R$ <span id="valorVendaNFS"></span></p>
+            <p>Itens Vendidos: <span id="itensNFS"></span></p>
+            <p>Imposto IRPF: R$ <span id="irpfNFS"></span></p>
+            <p>Imposto PIS: R$ <span id="pisNFS"></span></p>
+            <p>Imposto COFINS: R$ <span id="cofinsNFS"></span></p>
+            <p>Imposto INSS: R$ <span id="inssNFS"></span></p>
+            <p>Imposto ISSQN: R$ <span id="issqnNFS"></span></p>
+            <p>Valor Total: R$ <span id="valorTotalNFS"></span></p>
+            <p>Valor Líquido: R$ <span id="valorLiquidoNFS"></span></p>
+      </div>
+      <script>
+            function calcularNFS() {
+                  const valorVenda = parseFloat(document.getElementById("valorVenda").value);
+                  const itens = document.getElementById("itens").value;
+                  const irpf = parseFloat(document.getElementById("irpf").value);
+                  const pis = parseFloat(document.getElementById("pis").value);
+                  const cofins = parseFloat(document.getElementById("cofins").value);
+                  const inss = parseFloat(document.getElementById("inss").value);
+                  const issqn = parseFloat(document.getElementById("issqn").value);
+      
+                  const irpfNFS = valorVenda * (irpf / 100);
+                  const pisNFS = valorVenda * (pis / 100);
+                  const cofinsNFS = valorVenda * (cofins / 100);
+                  const inssNFS = valorVenda * (inss / 100);
+                  const issqnNFS = valorVenda * (issqn / 100);
+      
+                  const valorTotalNFS = valorVenda + irpfNFS + pisNFS + cofinsNFS + inssNFS + issqnNFS;
+                  const valorLiquidoNFS = valorVenda - irpfNFS - pisNFS - cofinsNFS - inssNFS - issqnNFS;
+      
+                  document.getElementById("valorVendaNFS").innerText = valorVenda;
+                  document.getElementById("itensNFS").innerText = itens;
+                  document.getElementById("irpfNFS").innerText = irpfNFS.toFixed(2);
+                  document.getElementById("pisNFS").innerText = pisNFS.toFixed(2);
+                  document.getElementById("cofinsNFS").innerText = cofinsNFS.toFixed(2);
+                  document.getElementById("inssNFS").innerText = inssNFS.toFixed(2);
+                  document.getElementById("issqnNFS").innerText = issqnNFS.toFixed(2);
+                  document.getElementById("valorTotalNFS").innerText = valorTotalNFS.toFixed(2);
+                  document.getElementById("valorLiquidoNFS").innerText = valorLiquidoNFS.toFixed(2);
+      
+                  document.getElementById("notaFiscal").style.display = "block";
+            }
+      </script>
+
+
+</html>
